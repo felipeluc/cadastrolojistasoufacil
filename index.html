@@ -1,228 +1,101 @@
-<!doctype html>
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Meu Financeiro • Minimal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Financeiro</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Firebase SDKs (opcional: preencha config no app.js para persistir) -->
-  <!-- <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script> -->
 </head>
 <body>
-  <div id="app">
+  <!-- Tela de Login -->
+  <section id="loginSection">
+    <form id="loginForm" class="card">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Usuário" required />
+      <input type="password" id="password" placeholder="Senha" required />
+      <button type="submit">Entrar</button>
+    </form>
+  </section>
 
-    <!-- LOGIN -->
-    <section id="login-view" class="view active">
-      <div class="card card-auth">
-        <h1 class="brand">Meu<span>Financeiro</span></h1>
-        <p class="muted">Acesse sua conta</p>
-        <label>Usuário</label>
-        <input id="login-username" placeholder="Usuário" autocomplete="username" />
-        <label>Senha</label>
-        <input id="login-password" type="password" placeholder="Senha" autocomplete="current-password" />
-        <button id="btn-login" class="btn primary">Entrar</button>
-        <p id="login-error" class="error"></p>
-        <p class="tiny muted">Dica: Felipe / 1515*</p>
-      </div>
-    </section>
+  <!-- Dashboard -->
+  <section id="dashboard" style="display:none;">
+    <header>
+      <h1>Sistema Financeiro</h1>
+      <button id="logoutBtn">Sair</button>
+    </header>
 
-    <!-- APP -->
-    <section id="app-view" class="view">
-      <header class="topbar">
-        <div class="brand-sm">Meu<span>Financeiro</span></div>
-        <nav class="tabs">
-          <button class="tab active" data-tab="dashboard">Geral</button>
-          <button class="tab" data-tab="cards">Cartões</button>
-          <button class="tab" data-tab="installments">Parceladas</button>
-          <button class="tab" data-tab="home">Casa</button>
-          <button class="tab" data-tab="money">Adm. Dinheiro</button>
-          <button class="tab" data-tab="settings">Config</button>
-        </nav>
-        <div class="userbox">
-          <span id="current-user"></span>
-          <button id="btn-logout" class="btn ghost">Sair</button>
-        </div>
-      </header>
+    <main>
+      <h2>Bem-vindo, Felipe!</h2>
+      <nav>
+        <button class="tabBtn" data-tab="cartoes">Cartões</button>
+        <button class="tabBtn" data-tab="parcelas">Parcelas</button>
+        <button class="tabBtn" data-tab="casa">Casa</button>
+        <button class="tabBtn" data-tab="geral">Visão Geral</button>
+      </nav>
 
-      <main class="content">
-
-        <!-- DASHBOARD -->
-        <section id="tab-dashboard" class="tabview active">
-          <div class="grid cards-3">
-            <div class="card">
-              <h3>Total de cartões</h3>
-              <div class="kpi"><span id="kpi-total-cartoes">R$ 0,00</span></div>
-              <p class="muted">Soma (Atual + Processando) de todos os cartões.</p>
-            </div>
-            <div class="card">
-              <h3>Meu gasto (base BB)</h3>
-              <div class="kpi"><span id="kpi-meu-gasto">R$ 0,00</span></div>
-              <p class="muted">BB: (Atual + Processando − Outros − Cobertas).</p>
-            </div>
-            <div class="card">
-              <h3>Posso gastar (BB)</h3>
-              <div class="kpi"><span id="kpi-pode-gastar">R$ 0,00</span></div>
-              <p class="muted">Limite BB − Meu gasto calculado.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="flex-between">
-              <h3>Distribuição de salário</h3>
-              <button id="btn-distribuir" class="btn primary">Distribuir R$ 2.600</button>
-            </div>
-            <p class="muted">
-              Regras: 500 (Caixinha fatura futura – Nubank), 366 (Caixinha parcelas – Nubank),
-              350 (Mercado Pago – Casa), 600 (Fatura atual), resto ⇒ Carteira Nubank.
-            </p>
-            <div id="dist-msg" class="ok tiny"></div>
-          </div>
-
-          <div class="grid cards-2">
-            <div class="card">
-              <h3>Resumo Saldo</h3>
-              <ul id="saldo-list" class="list"></ul>
-            </div>
-            <div class="card">
-              <h3>Próximas contas (Casa)</h3>
-              <ul id="next-bills" class="list"></ul>
-            </div>
-          </div>
-        </section>
-
+      <div id="content">
         <!-- CARTÕES -->
-        <section id="tab-cards" class="tabview">
-          <div class="subtabs">
-            <button class="subtab active" data-card="Nubank">Nubank</button>
-            <button class="subtab" data-card="BB">BB</button>
-            <button class="subtab" data-card="Will Bank">Will Bank</button>
-            <button class="subtab" data-card="Mercado Pago">Mercado Pago</button>
-            <button class="subtab" data-card="Bradesco">Bradesco</button>
-          </div>
+        <div class="tab active" id="cartoes">
+          <h3>Meus Cartões</h3>
+          <div id="cartoesList"></div>
+          <h4>Adicionar gasto de outra pessoa</h4>
+          <form id="outrosForm">
+            <select id="cartaoSelect"></select>
+            <input type="text" id="nomeOutro" placeholder="Nome" required />
+            <input type="number" id="valorOutro" placeholder="Valor" required />
+            <button type="submit">Adicionar</button>
+          </form>
+        </div>
 
-          <div id="card-panels">
-            <!-- Painéis gerados via JS para cada cartão -->
-          </div>
-        </section>
-
-        <!-- PARCELADAS -->
-        <section id="tab-installments" class="tabview">
-          <div class="card">
-            <h3>Nova compra parcelada</h3>
-            <div class="grid form-3">
-              <input id="ins-name" placeholder="Nome/Descrição" />
-              <input id="ins-bank" placeholder="Banco/Cartão (ex: BB)" />
-              <input id="ins-total" type="number" step="0.01" placeholder="Valor total (R$)" />
-              <input id="ins-qtd" type="number" placeholder="Parcelas (ex: 10)" />
-              <input id="ins-paid" type="number" placeholder="Já pagas (ex: 2)" />
-              <button id="ins-add" class="btn primary">Adicionar</button>
-            </div>
-          </div>
-          <div class="card">
-            <h3>Minhas parceladas</h3>
-            <table class="table" id="ins-table">
-              <thead>
-                <tr>
-                  <th>Nome</th><th>Banco</th><th>Total</th>
-                  <th>Parcelas</th><th>Faltam</th><th>Restante</th><th>Ações</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </section>
+        <!-- PARCELAS -->
+        <div class="tab" id="parcelas">
+          <h3>Controle de Parcelas</h3>
+          <form id="parcelaForm">
+            <input type="text" id="parcelaNome" placeholder="Descrição" required />
+            <input type="number" id="parcelaValor" placeholder="Valor da parcela" required />
+            <input type="number" id="qtdParcelas" placeholder="Qtd. Parcelas" required />
+            <select id="bancoParcela">
+              <option value="Nubank">Nubank</option>
+              <option value="BB">Banco do Brasil</option>
+              <option value="Will Bank">Will Bank</option>
+              <option value="Mercado Pago">Mercado Pago</option>
+              <option value="Bradesco">Bradesco</option>
+            </select>
+            <button type="submit">Cadastrar</button>
+          </form>
+          <div id="listaParcelas"></div>
+        </div>
 
         <!-- CASA -->
-        <section id="tab-home" class="tabview">
-          <div class="card">
-            <h3>Configuração deste mês</h3>
-            <div class="grid form-4">
-              <input id="home-saldo-inicial" type="number" step="0.01" placeholder="Valor em conta p/ casa (R$)" />
-              <input id="home-pensao" type="number" step="0.01" placeholder="Valor da pensão (R$)" />
-              <button id="home-aplicar" class="btn primary">Aplicar</button>
-              <div class="stat right"><span id="home-resultado" class="badge">R$ 0,00</span></div>
-            </div>
-            <p class="muted tiny">Saldo para pagar despesas = Valor em conta + Pensão.</p>
-          </div>
+        <div class="tab" id="casa">
+          <h3>Gastos da Casa</h3>
+          <form id="casaForm">
+            <select id="tipoGastoCasa">
+              <option value="Aluguel">Aluguel</option>
+              <option value="Mercado">Mercado</option>
+              <option value="Luz">Luz</option>
+              <option value="Água">Água</option>
+              <option value="Ração">Ração</option>
+              <option value="Internet">Internet</option>
+              <option value="Reserva">Reserva</option>
+              <option value="Pensão">Pensão</option>
+            </select>
+            <input type="number" id="valorCasa" placeholder="Valor" required />
+            <input type="date" id="dataCasa" required />
+            <button type="submit">Adicionar</button>
+          </form>
+          <div id="listaCasa"></div>
+        </div>
 
-          <div class="card">
-            <h3>Despesas de casa</h3>
-            <table class="table" id="home-table">
-              <thead>
-                <tr>
-                  <th>Item</th><th>Valor do mês</th><th>Dia de pagar</th><th>Pago?</th><th>Ações</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <div class="grid form-4">
-              <input id="home-nome" placeholder="Ex: Aluguel" />
-              <input id="home-valor" type="number" step="0.01" placeholder="Valor (R$)" />
-              <input id="home-dia" type="number" placeholder="Dia (1-31)" />
-              <button id="home-add" class="btn">Adicionar</button>
-            </div>
-          </div>
-        </section>
+        <!-- VISÃO GERAL -->
+        <div class="tab" id="geral">
+          <h3>Resumo Geral</h3>
+          <div id="resumo"></div>
+        </div>
+      </div>
+    </main>
+  </section>
 
-        <!-- ADM DINHEIRO -->
-        <section id="tab-money" class="tabview">
-          <div class="grid cards-2">
-            <div class="card">
-              <h3>Meus saldos</h3>
-              <table class="table" id="saldo-table">
-                <thead>
-                  <tr><th>Conta/Caixinha</th><th>Saldo (R$)</th><th>Ações</th></tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-              <div class="grid form-3">
-                <input id="saldo-nome" placeholder="Ex: Carteira Nubank" />
-                <input id="saldo-valor" type="number" step="0.01" placeholder="Saldo (R$)" />
-                <button id="saldo-add" class="btn">Salvar/Atualizar</button>
-              </div>
-            </div>
-            <div class="card">
-              <h3>Movimentar</h3>
-              <div class="grid form-4">
-                <input id="mv-origem" placeholder="Origem" />
-                <input id="mv-destino" placeholder="Destino" />
-                <input id="mv-valor" type="number" step="0.01" placeholder="Valor (R$)" />
-                <button id="mv-exec" class="btn primary">Transferir</button>
-              </div>
-              <p class="muted tiny">Ex.: Carteira Nubank → Fatura Atual (BB).</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- CONFIG -->
-        <section id="tab-settings" class="tabview">
-          <div class="grid cards-2">
-            <div class="card">
-              <h3>Preferências</h3>
-              <label>Salário padrão</label>
-              <input id="cfg-salario" type="number" step="0.01" placeholder="R$ 2600,00" />
-              <button id="cfg-salario-save" class="btn">Salvar</button>
-              <p class="muted tiny">Usado no botão “Distribuir salário”.</p>
-            </div>
-
-            <div class="card" id="user-admin-card" style="display:none">
-              <h3>Usuários (apenas Felipe)</h3>
-              <div class="grid form-3">
-                <input id="u-username" placeholder="Novo usuário" />
-                <input id="u-password" type="password" placeholder="Senha" />
-                <button id="u-add" class="btn">Cadastrar</button>
-              </div>
-              <ul id="u-list" class="list"></ul>
-              <p class="muted tiny">Cada usuário tem seus próprios dados (cartões, saldos, etc.).</p>
-            </div>
-          </div>
-        </section>
-
-      </main>
-    </section>
-  </div>
-
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

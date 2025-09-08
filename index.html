@@ -1,163 +1,121 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Meu Financeiro • Felipe</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Financeiro Felipe</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="root">
-
-    <!-- LOGIN -->
-    <div id="login-screen" class="center-screen card-lg">
-      <div class="brand">
-        <div class="logo-ico" aria-hidden>
-          <!-- minimal logo -->
-          <svg width="40" height="40" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" fill="white" opacity="0.08"/></svg>
-        </div>
-        <h1>Meu <span>Financeiro</span></h1>
-      </div>
-
-      <form id="login-form" class="form">
-        <label>Usuário</label>
-        <input id="login-username" autocomplete="username" value="" placeholder="Usuário" />
-        <label>Senha</label>
-        <input id="login-password" type="password" autocomplete="current-password" placeholder="Senha" />
-        <div class="row">
-          <button id="btn-login" class="btn primary">Entrar</button>
-          <button id="btn-demo" type="button" class="btn ghost">Exemplo</button>
-        </div>
-        <p class="hint">Usuário: <strong>Felipe</strong> — Senha: <strong>1515*</strong></p>
-        <p id="login-error" class="txt-error"></p>
-      </form>
+  <!-- Tela de Login -->
+  <div id="login-screen" class="login-container">
+    <div class="login-box">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Usuário">
+      <input type="password" id="password" placeholder="Senha">
+      <button onclick="login()">Entrar</button>
+      <p id="login-error" class="error"></p>
     </div>
+  </div>
 
-    <!-- APP -->
-    <div id="app" class="hidden">
+  <!-- Sistema -->
+  <div id="app" class="hidden">
+    <aside class="sidebar">
+      <h2>💳 Financeiro</h2>
+      <ul>
+        <li onclick="showPage('dashboard')">Dashboard</li>
+        <li onclick="showPage('nubank')">Nubank</li>
+        <li onclick="showPage('bb')">Banco do Brasil</li>
+        <li onclick="showPage('willbank')">Will Bank</li>
+        <li onclick="showPage('mercadopago')">Mercado Pago</li>
+        <li onclick="showPage('bradesco')">Bradesco</li>
+        <li onclick="showPage('casa')">Casa</li>
+      </ul>
+      <button class="logout" onclick="logout()">Sair</button>
+    </aside>
 
-      <!-- topbar -->
-      <header class="topbar">
-        <div class="left">
-          <div class="logo">
-            <svg width="28" height="28" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity="0.06"/></svg>
-            <strong>MeuFinanceiro</strong>
+    <main class="content">
+      <!-- Dashboard -->
+      <section id="dashboard" class="page active">
+        <h1>Dashboard</h1>
+        <div class="cards">
+          <div class="card">
+            <h3>Limite Total</h3>
+            <p id="total-limite">R$ 0</p>
           </div>
-          <nav class="nav">
-            <button class="navbtn active" data-tab="dashboard">Dashboard</button>
-            <button class="navbtn" data-tab="cards">Cartões</button>
-            <button class="navbtn" data-tab="money">Admin Dinheiro</button>
-            <button class="navbtn" data-tab="settings">Config</button>
-          </nav>
+          <div class="card">
+            <h3>Total Gasto</h3>
+            <p id="total-gasto">R$ 0</p>
+          </div>
+          <div class="card">
+            <h3>Disponível</h3>
+            <p id="total-disponivel">R$ 0</p>
+          </div>
         </div>
+      </section>
 
-        <div class="right">
-          <div class="user">Felipe</div>
-          <button id="btn-logout" class="btn small ghost">Sair</button>
-        </div>
-      </header>
+      <!-- Exemplo: Nubank -->
+      <section id="nubank" class="page">
+        <h1>Nubank</h1>
+        <label>Limite: <input type="number" id="nubank-limite" value="2000" oninput="updateCard('nubank')"></label>
+        <label>Gasto Atual: <input type="number" id="nubank-gasto" value="0" oninput="updateCard('nubank')"></label>
+        <label>Gasto Outros: <input type="number" id="nubank-outros" value="0" oninput="updateCard('nubank')"></label>
+        <label>Parcelas Fixas: <input type="number" id="nubank-parcelas" value="0" oninput="updateCard('nubank')"></label>
+        <h3>Disponível: <span id="nubank-disponivel">R$ 0</span></h3>
+      </section>
 
-      <main class="container">
+      <!-- Banco do Brasil -->
+      <section id="bb" class="page">
+        <h1>Banco do Brasil</h1>
+        <label>Limite: <input type="number" id="bb-limite" value="1600" oninput="updateCard('bb')"></label>
+        <label>Gasto Atual: <input type="number" id="bb-gasto" value="0" oninput="updateCard('bb')"></label>
+        <label>Gasto Outros: <input type="number" id="bb-outros" value="0" oninput="updateCard('bb')"></label>
+        <label>Parcelas Fixas: <input type="number" id="bb-parcelas" value="0" oninput="updateCard('bb')"></label>
+        <h3>Disponível: <span id="bb-disponivel">R$ 0</span></h3>
+      </section>
 
-        <!-- DASHBOARD -->
-        <section id="tab-dashboard" class="tabview active">
-          <div class="dash-grid">
-            <div class="dash-card">
-              <div class="dash-icon">💳</div>
-              <div class="dash-body">
-                <div class="dash-title">Total (cartões)</div>
-                <div id="dash-total-cards" class="dash-value">R$ 0,00</div>
-                <div class="muted">Soma (limite utilizado)</div>
-              </div>
-            </div>
+      <!-- Will Bank -->
+      <section id="willbank" class="page">
+        <h1>Will Bank</h1>
+        <label>Limite: <input type="number" id="willbank-limite" value="1000" oninput="updateCard('willbank')"></label>
+        <label>Gasto Atual: <input type="number" id="willbank-gasto" value="0" oninput="updateCard('willbank')"></label>
+        <label>Gasto Outros: <input type="number" id="willbank-outros" value="0" oninput="updateCard('willbank')"></label>
+        <label>Parcelas Fixas: <input type="number" id="willbank-parcelas" value="0" oninput="updateCard('willbank')"></label>
+        <h3>Disponível: <span id="willbank-disponivel">R$ 0</span></h3>
+      </section>
 
-            <div class="dash-card">
-              <div class="dash-icon">👤</div>
-              <div class="dash-body">
-                <div class="dash-title">Meu gasto total</div>
-                <div id="dash-meu-gasto" class="dash-value">R$ 0,00</div>
-                <div class="muted">Somatório dos seus gastos</div>
-              </div>
-            </div>
+      <!-- Mercado Pago -->
+      <section id="mercadopago" class="page">
+        <h1>Mercado Pago</h1>
+        <label>Limite: <input type="number" id="mercadopago-limite" value="800" oninput="updateCard('mercadopago')"></label>
+        <label>Gasto Atual: <input type="number" id="mercadopago-gasto" value="0" oninput="updateCard('mercadopago')"></label>
+        <label>Gasto Outros: <input type="number" id="mercadopago-outros" value="0" oninput="updateCard('mercadopago')"></label>
+        <label>Parcelas Fixas: <input type="number" id="mercadopago-parcelas" value="0" oninput="updateCard('mercadopago')"></label>
+        <h3>Disponível: <span id="mercadopago-disponivel">R$ 0</span></h3>
+      </section>
 
-            <div class="dash-card">
-              <div class="dash-icon">⚖️</div>
-              <div class="dash-body">
-                <div class="dash-title">Disponível (BB)</div>
-                <div id="dash-disponivel-bb" class="dash-value">R$ 0,00</div>
-                <div class="muted">Limite BB menos seus compromissos</div>
-              </div>
-            </div>
+      <!-- Bradesco -->
+      <section id="bradesco" class="page">
+        <h1>Bradesco</h1>
+        <label>Limite: <input type="number" id="bradesco-limite" value="1200" oninput="updateCard('bradesco')"></label>
+        <label>Gasto Atual: <input type="number" id="bradesco-gasto" value="0" oninput="updateCard('bradesco')"></label>
+        <label>Gasto Outros: <input type="number" id="bradesco-outros" value="0" oninput="updateCard('bradesco')"></label>
+        <label>Parcelas Fixas: <input type="number" id="bradesco-parcelas" value="0" oninput="updateCard('bradesco')"></label>
+        <h3>Disponível: <span id="bradesco-disponivel">R$ 0</span></h3>
+      </section>
 
-            <div class="dash-card">
-              <div class="dash-icon">🏦</div>
-              <div class="dash-body">
-                <div class="dash-title">Total guardado</div>
-                <div id="dash-guardado" class="dash-value">R$ 0,00</div>
-                <div class="muted">Caixinhas e carteiras</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card card-section">
-            <div class="section-head">
-              <h3>Resumo rápido</h3>
-              <div class="tiny muted">Última atualização: <span id="last-update">—</span></div>
-            </div>
-            <div id="quick-summary" class="summary-grid"></div>
-          </div>
-        </section>
-
-        <!-- CARTÕES -->
-        <section id="tab-cards" class="tabview">
-          <div class="card-section">
-            <div class="section-head">
-              <h3>Seus cartões</h3>
-              <div>
-                <button id="btn-new-card" class="btn small">+ Novo cartão</button>
-              </div>
-            </div>
-
-            <div id="cards-list" class="cards-list"></div>
-          </div>
-        </section>
-
-        <!-- ADMIN DINHEIRO -->
-        <section id="tab-money" class="tabview">
-          <div class="card card-section">
-            <h3>Administração de dinheiro</h3>
-            <div class="grid-3" id="wallets-list"></div>
-
-            <div class="form-inline">
-              <input id="wallet-name" placeholder="Nome (ex: Carteira Nubank)" />
-              <input id="wallet-value" type="number" step="0.01" placeholder="Valor R$" />
-              <button id="wallet-add" class="btn">Salvar</button>
-            </div>
-          </div>
-        </section>
-
-        <!-- CONFIG -->
-        <section id="tab-settings" class="tabview">
-          <div class="card card-section">
-            <h3>Configurações</h3>
-            <div class="grid-2">
-              <div>
-                <label>Salário padrão</label>
-                <input id="cfg-salario" type="number" step="0.01" />
-                <button id="cfg-save" class="btn">Salvar salário</button>
-              </div>
-
-              <div id="user-admin" class="muted">
-                <label>Usuário fixo</label>
-                <div class="tiny">Felipe — login fixo</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      </main>
-    </div>
-
+      <!-- Casa -->
+      <section id="casa" class="page">
+        <h1>Casa</h1>
+        <label>Aluguel: <input type="number"></label>
+        <label>Mercado: <input type="number"></label>
+        <label>Luz: <input type="number"></label>
+        <label>Água: <input type="number"></label>
+        <label>Ração: <input type="number"></label>
+        <label>Internet: <input type="number"></label>
+        <label>Reserva: <input type="number"></label>
+      </section>
+    </main>
   </div>
 
   <script src="app.js"></script>

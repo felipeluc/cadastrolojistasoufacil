@@ -1,0 +1,264 @@
+/* style.css - Apple-like Design */
+
+:root {
+    --primary-color: #007AFF; /* Apple Blue */
+    --secondary-color: #5AC8FA; /* Lighter Apple Blue */
+    --background-color: #F2F2F7; /* Light Gray Background */
+    --card-background: #FFFFFF; /* White Card Background */
+    --text-color: #1C1C1E; /* Dark Text */
+    --light-gray: #E5E5EA; /* Very Light Gray */
+    --medium-gray: #C7C7CC; /* Medium Gray for borders/separators */
+    --dark-gray: #3A3A3C; /* Dark Gray for headers/accents */
+    --red-color: #FF3B30; /* Apple Red for alerts/errors */
+    --green-color: #34C759; /* Apple Green for success */
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 900px; /* Slightly narrower for a cleaner look */
+    margin: 40px auto; /* More vertical spacing */
+    background-color: var(--card-background);
+    padding: 30px; /* More padding */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer, more pronounced shadow */
+    border-radius: 12px; /* More rounded corners */
+    overflow: hidden; /* Clear floats */
+}
+
+header {
+    background-color: var(--dark-gray);
+    color: #fff;
+    padding: 1.2rem 0;
+    text-align: center;
+    border-radius: 10px 10px 0 0; /* Match container border-radius */
+    margin: -30px -30px 30px -30px; /* Extend header to edges */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2rem; /* Slightly smaller, more refined */
+    font-weight: 600; /* Semi-bold */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+nav ul li {
+    margin: 0 12px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500; /* Medium weight */
+    padding: 8px 15px;
+    border-radius: 8px; /* More rounded buttons */
+    transition: background-color 0.2s ease, transform 0.1s ease; /* Smooth transition */
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.15); /* Subtle hover effect */
+    transform: translateY(-1px); /* Slight lift effect */
+}
+
+main {
+    padding: 0; /* Remove main padding, sections will handle it */
+}
+
+section {
+    background-color: var(--card-background);
+    padding: 25px; /* Consistent padding */
+    margin-bottom: 20px;
+    border-radius: 10px; /* Consistent rounded corners */
+    border: 1px solid var(--light-gray); /* Subtle border */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Lighter shadow for sections */
+}
+
+section h2 {
+    color: var(--text-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--medium-gray); /* Thinner, softer border */
+    padding-bottom: 15px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* More space between form elements */
+}
+
+form label {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    margin-bottom: -8px; /* Pull label closer to input */
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="number"],
+form input[type="date"] {
+    padding: 12px 15px; /* More padding for inputs */
+    border: 1px solid var(--medium-gray);
+    border-radius: 8px; /* More rounded inputs */
+    font-size: 1rem;
+    color: var(--text-color);
+    background-color: var(--background-color); /* Light background for inputs */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+form input:focus {
+    border-color: var(--primary-color); /* Highlight on focus */
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2); /* Subtle blue glow */
+    outline: none;
+}
+
+form button {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 14px 25px; /* Larger buttons */
+    border: none;
+    border-radius: 8px; /* More rounded buttons */
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 10px; /* Space above button */
+}
+
+form button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-1px); /* Slight lift effect */
+}
+
+form button:active {
+    transform: translateY(0); /* Press down effect */
+}
+
+p {
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+p a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Specific styles for lists (e.g., card-list, expense-list) */
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+ul li {
+    background-color: var(--light-gray);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+ul li h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--dark-gray);
+}
+
+ul li span {
+    font-weight: 500;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    header {
+        margin: -20px -20px 20px -20px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+
+    section {
+        padding: 20px;
+    }
+
+    form button {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    nav ul li a {
+        padding: 8px 15px;
+    }
+
+    form button {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    header {
+        margin: -15px -15px 15px -15px;
+    }
+
+    section {
+        padding: 15px;
+    }
+}
+
+

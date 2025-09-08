@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle Financeiro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Controle Financeiro</h1>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#cartoes">Cartões</a></li>
+                    <li><a href="#despesas">Despesas</a></li>
+                    <li><a href="#parceladas">Compras Parceladas</a></li>
+                    <li><a href="#administracao">Administração</a></li>
+                    <li><a href="#casa">Minha Casa</a></li>
+
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section id="dashboard">
+                <h2>Dashboard</h2>
+                <p>Visão geral do seu financeiro.</p>
+                <div id="dashboard-content">
+                    <h3>Resumo Financeiro</h3>
+                    <p>Receita Mensal: <span id="monthly-income">R$ 0.00</span></p>
+                    <p>Despesas Totais: <span id="total-expenses">R$ 0.00</span></p>
+                    <p>Saldo Disponível: <span id="available-balance">R$ 0.00</span></p>
+                    <h4>Visão Geral dos Cartões</h4>
+                    <ul id="dashboard-card-summary">
+                        <!-- Resumo dos cartões será carregado aqui -->
+                    </ul>
+                    <h4>Próximas Parcelas</h4>
+                    <ul id="dashboard-installments-summary">
+                        <!-- Resumo das parcelas será carregado aqui -->
+                    </ul>
+                </div>
+            </section>
+
+            <section id="cartoes" style="display:none;">
+                <h2>Cartões</h2>
+                <p>Gerenciamento dos seus cartões (Nubank, BB, Will Bank, Mercado Pago, Bradesco).</p>
+                <div id="card-management">
+                    <h3>Seus Cartões</h3>
+                    <ul id="card-list">
+                        <!-- Cartões serão carregados aqui pelo JavaScript -->
+                    </ul>
+                    <button id="add-card-btn">Adicionar Novo Cartão</button>
+                </div>
+            </section>
+
+            <section id="despesas" style="display:none;">
+                <h2>Despesas</h2>
+                <p>Registro e controle de despesas.</p>
+                <div id="expense-management">
+                    <h3>Registrar Nova Despesa</h3>
+                    <form id="expense-form">
+                        <label for="expense-description">Descrição:</label>
+                        <input type="text" id="expense-description" required>
+                        <label for="expense-amount">Valor:</label>
+                        <input type="number" id="expense-amount" step="0.01" required>
+                        <label for="expense-date">Data:</label>
+                        <input type="date" id="expense-date" required>
+                        <button type="submit">Adicionar Despesa</button>
+                    </form>
+                    <h3>Suas Despesas</h3>
+                    <ul id="expense-list">
+                        <!-- Despesas serão carregadas aqui pelo JavaScript -->
+                    </ul>
+                </div>
+            </section>
+
+            <section id="parceladas" style="display:none;">
+                <h2>Compras Parceladas</h2>
+                <p>Acompanhamento de compras parceladas.</p>
+                <div id="installment-management">
+                    <h3>Registrar Nova Compra Parcelada</h3>
+                    <form id="installment-form">
+                        <label for="installment-description">Descrição:</label>
+                        <input type="text" id="installment-description" required>
+                        <label for="installment-amount">Valor Total:</label>
+                        <input type="number" id="installment-amount" step="0.01" required>
+                        <label for="installment-installments">Número de Parcelas:</label>
+                        <input type="number" id="installment-installments" min="1" required>
+                        <label for="installment-paid">Parcelas Pagas:</label>
+                        <input type="number" id="installment-paid" min="0" value="0" required>
+                        <label for="installment-bank">Banco/Cartão:</label>
+                        <input type="text" id="installment-bank" required>
+                        <button type="submit">Adicionar Compra Parcelada</button>
+                    </form>
+                    <h3>Suas Compras Parceladas</h3>
+                    <ul id="installment-list">
+                        <!-- Compras parceladas serão carregadas aqui pelo JavaScript -->
+                    </ul>
+                </div>
+            </section>
+
+            <section id="administracao" style="display:none;">
+                <h2>Administração de Dinheiro</h2>
+                <p>Controle de valores guardados e em qual banco.</p>
+                <div id="other-expenses-management">
+                    <h3>Gastos de Outras Pessoas no Cartão</h3>
+                    <form id="other-expense-form">
+                        <label for="other-expense-name">Nome da Pessoa:</label>
+                        <input type="text" id="other-expense-name" required>
+                        <label for="other-expense-amount">Valor Gasto:</label>
+                        <input type="number" id="other-expense-amount" step="0.01" required>
+                        <label for="other-expense-card">Cartão:</label>
+                        <input type="text" id="other-expense-card" placeholder="Ex: BB" required>
+                        <label for="other-expense-paid">Pago?</label>
+                        <input type="checkbox" id="other-expense-paid">
+                        <button type="submit">Registrar Gasto</button>
+                    </form>
+                    <h3>Gastos Registrados</h3>
+                    <ul id="other-expense-list">
+                        <!-- Gastos de outras pessoas serão carregados aqui -->
+                    </ul>
+                </div>
+                <!-- Conteúdo de Administração aqui -->
+            </section>
+
+            <section id="casa" style="display:none;">
+                <h2>Minha Casa</h2>
+                <p>Gerenciamento de gastos da casa.</p>
+                <div id="house-expenses-management">
+                    <h3>Gastos da Casa</h3>
+                    <form id="house-expense-form">
+                        <label for="house-expense-description">Descrição:</label>
+                        <input type="text" id="house-expense-description" required>
+                        <label for="house-expense-amount">Valor:</label>
+                        <input type="number" id="house-expense-amount" step="0.01" required>
+                        <label for="house-expense-paid">Pago?</label>
+                        <input type="checkbox" id="house-expense-paid">
+                        <label for="house-expense-date">Data de Vencimento:</label>
+                        <input type="date" id="house-expense-date" required>
+                        <button type="submit">Adicionar Gasto da Casa</button>
+                    </form>
+                    <h3>Resumo da Casa</h3>
+                    <p>Saldo Atual da Casa: <span id="house-current-balance">R$ 0.00</span></p>
+                    <p>Total de Gastos da Casa: <span id="house-total-expenses">R$ 0.00</span></p>
+                    <h4>Lista de Gastos</h4>
+                    <ul id="house-expense-list">
+                        <!-- Gastos da casa serão carregados aqui -->
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
+

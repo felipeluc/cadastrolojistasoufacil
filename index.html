@@ -1,160 +1,228 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!doctype html>
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle Financeiro</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meu Financeiro • Minimal</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Firebase SDKs (opcional: preencha config no app.js para persistir) -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script> -->
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Controle Financeiro</h1>
-            <nav>
-                <ul>
-                    <li><a href="#dashboard">Dashboard</a></li>
-                    <li><a href="#cartoes">Cartões</a></li>
-                    <li><a href="#despesas">Despesas</a></li>
-                    <li><a href="#parceladas">Compras Parceladas</a></li>
-                    <li><a href="#administracao">Administração</a></li>
-                    <li><a href="#casa">Minha Casa</a></li>
+  <div id="app">
 
-                </ul>
-            </nav>
-        </header>
+    <!-- LOGIN -->
+    <section id="login-view" class="view active">
+      <div class="card card-auth">
+        <h1 class="brand">Meu<span>Financeiro</span></h1>
+        <p class="muted">Acesse sua conta</p>
+        <label>Usuário</label>
+        <input id="login-username" placeholder="Usuário" autocomplete="username" />
+        <label>Senha</label>
+        <input id="login-password" type="password" placeholder="Senha" autocomplete="current-password" />
+        <button id="btn-login" class="btn primary">Entrar</button>
+        <p id="login-error" class="error"></p>
+        <p class="tiny muted">Dica: Felipe / 1515*</p>
+      </div>
+    </section>
 
-        <main>
-            <section id="dashboard">
-                <h2>Dashboard</h2>
-                <p>Visão geral do seu financeiro.</p>
-                <div id="dashboard-content">
-                    <h3>Resumo Financeiro</h3>
-                    <p>Receita Mensal: <span id="monthly-income">R$ 0.00</span></p>
-                    <p>Despesas Totais: <span id="total-expenses">R$ 0.00</span></p>
-                    <p>Saldo Disponível: <span id="available-balance">R$ 0.00</span></p>
-                    <h4>Visão Geral dos Cartões</h4>
-                    <ul id="dashboard-card-summary">
-                        <!-- Resumo dos cartões será carregado aqui -->
-                    </ul>
-                    <h4>Próximas Parcelas</h4>
-                    <ul id="dashboard-installments-summary">
-                        <!-- Resumo das parcelas será carregado aqui -->
-                    </ul>
-                </div>
-            </section>
+    <!-- APP -->
+    <section id="app-view" class="view">
+      <header class="topbar">
+        <div class="brand-sm">Meu<span>Financeiro</span></div>
+        <nav class="tabs">
+          <button class="tab active" data-tab="dashboard">Geral</button>
+          <button class="tab" data-tab="cards">Cartões</button>
+          <button class="tab" data-tab="installments">Parceladas</button>
+          <button class="tab" data-tab="home">Casa</button>
+          <button class="tab" data-tab="money">Adm. Dinheiro</button>
+          <button class="tab" data-tab="settings">Config</button>
+        </nav>
+        <div class="userbox">
+          <span id="current-user"></span>
+          <button id="btn-logout" class="btn ghost">Sair</button>
+        </div>
+      </header>
 
-            <section id="cartoes" style="display:none;">
-                <h2>Cartões</h2>
-                <p>Gerenciamento dos seus cartões (Nubank, BB, Will Bank, Mercado Pago, Bradesco).</p>
-                <div id="card-management">
-                    <h3>Seus Cartões</h3>
-                    <ul id="card-list">
-                        <!-- Cartões serão carregados aqui pelo JavaScript -->
-                    </ul>
-                    <button id="add-card-btn">Adicionar Novo Cartão</button>
-                </div>
-            </section>
+      <main class="content">
 
-            <section id="despesas" style="display:none;">
-                <h2>Despesas</h2>
-                <p>Registro e controle de despesas.</p>
-                <div id="expense-management">
-                    <h3>Registrar Nova Despesa</h3>
-                    <form id="expense-form">
-                        <label for="expense-description">Descrição:</label>
-                        <input type="text" id="expense-description" required>
-                        <label for="expense-amount">Valor:</label>
-                        <input type="number" id="expense-amount" step="0.01" required>
-                        <label for="expense-date">Data:</label>
-                        <input type="date" id="expense-date" required>
-                        <button type="submit">Adicionar Despesa</button>
-                    </form>
-                    <h3>Suas Despesas</h3>
-                    <ul id="expense-list">
-                        <!-- Despesas serão carregadas aqui pelo JavaScript -->
-                    </ul>
-                </div>
-            </section>
+        <!-- DASHBOARD -->
+        <section id="tab-dashboard" class="tabview active">
+          <div class="grid cards-3">
+            <div class="card">
+              <h3>Total de cartões</h3>
+              <div class="kpi"><span id="kpi-total-cartoes">R$ 0,00</span></div>
+              <p class="muted">Soma (Atual + Processando) de todos os cartões.</p>
+            </div>
+            <div class="card">
+              <h3>Meu gasto (base BB)</h3>
+              <div class="kpi"><span id="kpi-meu-gasto">R$ 0,00</span></div>
+              <p class="muted">BB: (Atual + Processando − Outros − Cobertas).</p>
+            </div>
+            <div class="card">
+              <h3>Posso gastar (BB)</h3>
+              <div class="kpi"><span id="kpi-pode-gastar">R$ 0,00</span></div>
+              <p class="muted">Limite BB − Meu gasto calculado.</p>
+            </div>
+          </div>
 
-            <section id="parceladas" style="display:none;">
-                <h2>Compras Parceladas</h2>
-                <p>Acompanhamento de compras parceladas.</p>
-                <div id="installment-management">
-                    <h3>Registrar Nova Compra Parcelada</h3>
-                    <form id="installment-form">
-                        <label for="installment-description">Descrição:</label>
-                        <input type="text" id="installment-description" required>
-                        <label for="installment-amount">Valor Total:</label>
-                        <input type="number" id="installment-amount" step="0.01" required>
-                        <label for="installment-installments">Número de Parcelas:</label>
-                        <input type="number" id="installment-installments" min="1" required>
-                        <label for="installment-paid">Parcelas Pagas:</label>
-                        <input type="number" id="installment-paid" min="0" value="0" required>
-                        <label for="installment-bank">Banco/Cartão:</label>
-                        <input type="text" id="installment-bank" required>
-                        <button type="submit">Adicionar Compra Parcelada</button>
-                    </form>
-                    <h3>Suas Compras Parceladas</h3>
-                    <ul id="installment-list">
-                        <!-- Compras parceladas serão carregadas aqui pelo JavaScript -->
-                    </ul>
-                </div>
-            </section>
+          <div class="card">
+            <div class="flex-between">
+              <h3>Distribuição de salário</h3>
+              <button id="btn-distribuir" class="btn primary">Distribuir R$ 2.600</button>
+            </div>
+            <p class="muted">
+              Regras: 500 (Caixinha fatura futura – Nubank), 366 (Caixinha parcelas – Nubank),
+              350 (Mercado Pago – Casa), 600 (Fatura atual), resto ⇒ Carteira Nubank.
+            </p>
+            <div id="dist-msg" class="ok tiny"></div>
+          </div>
 
-            <section id="administracao" style="display:none;">
-                <h2>Administração de Dinheiro</h2>
-                <p>Controle de valores guardados e em qual banco.</p>
-                <div id="other-expenses-management">
-                    <h3>Gastos de Outras Pessoas no Cartão</h3>
-                    <form id="other-expense-form">
-                        <label for="other-expense-name">Nome da Pessoa:</label>
-                        <input type="text" id="other-expense-name" required>
-                        <label for="other-expense-amount">Valor Gasto:</label>
-                        <input type="number" id="other-expense-amount" step="0.01" required>
-                        <label for="other-expense-card">Cartão:</label>
-                        <input type="text" id="other-expense-card" placeholder="Ex: BB" required>
-                        <label for="other-expense-paid">Pago?</label>
-                        <input type="checkbox" id="other-expense-paid">
-                        <button type="submit">Registrar Gasto</button>
-                    </form>
-                    <h3>Gastos Registrados</h3>
-                    <ul id="other-expense-list">
-                        <!-- Gastos de outras pessoas serão carregados aqui -->
-                    </ul>
-                </div>
-                <!-- Conteúdo de Administração aqui -->
-            </section>
+          <div class="grid cards-2">
+            <div class="card">
+              <h3>Resumo Saldo</h3>
+              <ul id="saldo-list" class="list"></ul>
+            </div>
+            <div class="card">
+              <h3>Próximas contas (Casa)</h3>
+              <ul id="next-bills" class="list"></ul>
+            </div>
+          </div>
+        </section>
 
-            <section id="casa" style="display:none;">
-                <h2>Minha Casa</h2>
-                <p>Gerenciamento de gastos da casa.</p>
-                <div id="house-expenses-management">
-                    <h3>Gastos da Casa</h3>
-                    <form id="house-expense-form">
-                        <label for="house-expense-description">Descrição:</label>
-                        <input type="text" id="house-expense-description" required>
-                        <label for="house-expense-amount">Valor:</label>
-                        <input type="number" id="house-expense-amount" step="0.01" required>
-                        <label for="house-expense-paid">Pago?</label>
-                        <input type="checkbox" id="house-expense-paid">
-                        <label for="house-expense-date">Data de Vencimento:</label>
-                        <input type="date" id="house-expense-date" required>
-                        <button type="submit">Adicionar Gasto da Casa</button>
-                    </form>
-                    <h3>Resumo da Casa</h3>
-                    <p>Saldo Atual da Casa: <span id="house-current-balance">R$ 0.00</span></p>
-                    <p>Total de Gastos da Casa: <span id="house-total-expenses">R$ 0.00</span></p>
-                    <h4>Lista de Gastos</h4>
-                    <ul id="house-expense-list">
-                        <!-- Gastos da casa serão carregados aqui -->
-                    </ul>
-                </div>
-            </section>
-        </main>
-    </div>
+        <!-- CARTÕES -->
+        <section id="tab-cards" class="tabview">
+          <div class="subtabs">
+            <button class="subtab active" data-card="Nubank">Nubank</button>
+            <button class="subtab" data-card="BB">BB</button>
+            <button class="subtab" data-card="Will Bank">Will Bank</button>
+            <button class="subtab" data-card="Mercado Pago">Mercado Pago</button>
+            <button class="subtab" data-card="Bradesco">Bradesco</button>
+          </div>
 
+          <div id="card-panels">
+            <!-- Painéis gerados via JS para cada cartão -->
+          </div>
+        </section>
 
-    <script type="module" src="app.js"></script>
+        <!-- PARCELADAS -->
+        <section id="tab-installments" class="tabview">
+          <div class="card">
+            <h3>Nova compra parcelada</h3>
+            <div class="grid form-3">
+              <input id="ins-name" placeholder="Nome/Descrição" />
+              <input id="ins-bank" placeholder="Banco/Cartão (ex: BB)" />
+              <input id="ins-total" type="number" step="0.01" placeholder="Valor total (R$)" />
+              <input id="ins-qtd" type="number" placeholder="Parcelas (ex: 10)" />
+              <input id="ins-paid" type="number" placeholder="Já pagas (ex: 2)" />
+              <button id="ins-add" class="btn primary">Adicionar</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Minhas parceladas</h3>
+            <table class="table" id="ins-table">
+              <thead>
+                <tr>
+                  <th>Nome</th><th>Banco</th><th>Total</th>
+                  <th>Parcelas</th><th>Faltam</th><th>Restante</th><th>Ações</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- CASA -->
+        <section id="tab-home" class="tabview">
+          <div class="card">
+            <h3>Configuração deste mês</h3>
+            <div class="grid form-4">
+              <input id="home-saldo-inicial" type="number" step="0.01" placeholder="Valor em conta p/ casa (R$)" />
+              <input id="home-pensao" type="number" step="0.01" placeholder="Valor da pensão (R$)" />
+              <button id="home-aplicar" class="btn primary">Aplicar</button>
+              <div class="stat right"><span id="home-resultado" class="badge">R$ 0,00</span></div>
+            </div>
+            <p class="muted tiny">Saldo para pagar despesas = Valor em conta + Pensão.</p>
+          </div>
+
+          <div class="card">
+            <h3>Despesas de casa</h3>
+            <table class="table" id="home-table">
+              <thead>
+                <tr>
+                  <th>Item</th><th>Valor do mês</th><th>Dia de pagar</th><th>Pago?</th><th>Ações</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div class="grid form-4">
+              <input id="home-nome" placeholder="Ex: Aluguel" />
+              <input id="home-valor" type="number" step="0.01" placeholder="Valor (R$)" />
+              <input id="home-dia" type="number" placeholder="Dia (1-31)" />
+              <button id="home-add" class="btn">Adicionar</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ADM DINHEIRO -->
+        <section id="tab-money" class="tabview">
+          <div class="grid cards-2">
+            <div class="card">
+              <h3>Meus saldos</h3>
+              <table class="table" id="saldo-table">
+                <thead>
+                  <tr><th>Conta/Caixinha</th><th>Saldo (R$)</th><th>Ações</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <div class="grid form-3">
+                <input id="saldo-nome" placeholder="Ex: Carteira Nubank" />
+                <input id="saldo-valor" type="number" step="0.01" placeholder="Saldo (R$)" />
+                <button id="saldo-add" class="btn">Salvar/Atualizar</button>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Movimentar</h3>
+              <div class="grid form-4">
+                <input id="mv-origem" placeholder="Origem" />
+                <input id="mv-destino" placeholder="Destino" />
+                <input id="mv-valor" type="number" step="0.01" placeholder="Valor (R$)" />
+                <button id="mv-exec" class="btn primary">Transferir</button>
+              </div>
+              <p class="muted tiny">Ex.: Carteira Nubank → Fatura Atual (BB).</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONFIG -->
+        <section id="tab-settings" class="tabview">
+          <div class="grid cards-2">
+            <div class="card">
+              <h3>Preferências</h3>
+              <label>Salário padrão</label>
+              <input id="cfg-salario" type="number" step="0.01" placeholder="R$ 2600,00" />
+              <button id="cfg-salario-save" class="btn">Salvar</button>
+              <p class="muted tiny">Usado no botão “Distribuir salário”.</p>
+            </div>
+
+            <div class="card" id="user-admin-card" style="display:none">
+              <h3>Usuários (apenas Felipe)</h3>
+              <div class="grid form-3">
+                <input id="u-username" placeholder="Novo usuário" />
+                <input id="u-password" type="password" placeholder="Senha" />
+                <button id="u-add" class="btn">Cadastrar</button>
+              </div>
+              <ul id="u-list" class="list"></ul>
+              <p class="muted tiny">Cada usuário tem seus próprios dados (cartões, saldos, etc.).</p>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
-

@@ -1,105 +1,81 @@
-:root{
-  --bg:#0b0b0c;
-  --panel:#111214;
-  --muted:#9aa0a6;
-  --glass: rgba(255,255,255,0.03);
-  --accent:#f5f5f7;
-  --radius:14px;
-  --pad:18px;
-  --shadow: 0 8px 24px rgba(0,0,0,0.6);
-  font-synthesis: none;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f7;
+  color: #333;
 }
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; background:linear-gradient(180deg,#070708 0%, #0e0e10 100%);
-  color:var(--accent); font-family:Inter, "Segoe UI", Roboto, system-ui, -apple-system;
-  -webkit-font-smoothing:antialiased;
+
+/* Login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
-.hidden{display:none}
-
-/* center login */
-.center-screen{min-height:100vh; display:flex; align-items:center; justify-content:center}
-.card-lg{width:420px; padding:28px; border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); box-shadow:var(--shadow); border:1px solid rgba(255,255,255,0.02)}
-.brand{display:flex; align-items:center; gap:12px; margin-bottom:8px}
-.brand h1{font-size:20px; margin:0}
-.brand h1 span{color:var(--muted); font-weight:400}
-
-.form{display:block}
-label{display:block; font-size:13px; color:var(--muted); margin-top:12px}
-input[type="text"], input[type="password"], input[type="number"], input[type="date"], select{
-  width:100%; padding:12px; border-radius:10px; margin-top:6px; background:var(--panel); color:var(--accent); border:1px solid rgba(255,255,255,0.02);
+.login-box {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 300px;
 }
-.row{display:flex; gap:10px; margin-top:16px}
-.btn{background:#1c1c1d; border:1px solid rgba(255,255,255,0.03); color:var(--accent); padding:10px 14px; border-radius:10px; cursor:pointer}
-.btn.primary{background:linear-gradient(180deg,#fff,#eaeaea); color:#000}
-.btn.ghost{background:transparent; border:1px solid rgba(255,255,255,0.04)}
-.btn.small{padding:7px 10px; font-size:13px}
-.hint{font-size:13px; color:var(--muted); margin-top:10px}
-.txt-error{color:#ff8a8a; margin-top:6px}
-
-/* App layout */
-.topbar{display:flex; align-items:center; justify-content:space-between; padding:14px 24px; border-bottom:1px solid rgba(255,255,255,0.02); background:rgba(0,0,0,0.2)}
-.logo{display:flex; gap:10px; align-items:center}
-.logo strong{font-size:16px}
-.nav{display:flex; gap:8px; margin-left:18px}
-.navbtn{background:transparent; color:var(--muted); border-radius:8px; padding:8px 12px; border:1px solid transparent; cursor:pointer}
-.navbtn.active{background:var(--panel); color:var(--accent); border:1px solid rgba(255,255,255,0.03)}
-.container{max-width:1100px; margin:20px auto; padding:0 18px}
-
-/* dashboard */
-.dash-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:18px}
-.dash-card{background:var(--panel); padding:16px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.6); display:flex; gap:12px; align-items:center}
-.dash-icon{font-size:28px; width:56px; height:56px; display:flex; align-items:center; justify-content:center; background:var(--glass); border-radius:12px}
-.dash-body .dash-title{font-size:13px; color:var(--muted)}
-.dash-value{font-weight:700; font-size:20px; margin-top:6px}
-
-/* cards list */
-.card-section{background:transparent; padding:14px 0}
-.section-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px}
-.cards-list{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
-
-/* cartão individual */
-.card-card{
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius:14px; padding:14px; border:1px solid rgba(255,255,255,0.02);
-  box-shadow:0 10px 30px rgba(0,0,0,0.6);
+.login-box input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
-.card-head{display:flex; align-items:center; justify-content:space-between}
-.card-title{display:flex; gap:12px; align-items:center}
-.card-title strong{font-size:16px}
-.card-body{margin-top:12px}
-.kpis{display:flex; gap:10px; flex-wrap:wrap}
-.kpi{background:rgba(255,255,255,0.02); padding:10px; border-radius:10px; min-width:120px}
-.kpi .label{font-size:12px; color:var(--muted)}
-.kpi .val{font-weight:700; margin-top:6px}
-
-/* subtabs inside card */
-.card-tabs{display:flex; gap:8px; margin-top:12px}
-.card-tab{background:transparent; padding:8px 10px; border-radius:8px; border:1px solid transparent; cursor:pointer; color:var(--muted)}
-.card-tab.active{background:var(--panel); color:var(--accent); border:1px solid rgba(255,255,255,0.02)}
-
-/* forms */
-.form-inline{display:flex; gap:8px; margin-top:10px}
-.form-inline input{flex:1}
-.small-table{width:100%; margin-top:10px; border-collapse:collapse}
-.small-table td, .small-table th{padding:8px; border-bottom:1px dashed rgba(255,255,255,0.02)}
-.muted{color:var(--muted); font-size:13px}
-.tiny{font-size:12px}
-
-/* wallet grid */
-.grid-3{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:12px}
-.wallet{background:var(--panel); padding:12px; border-radius:10px;}
-
-/* summary */
-.summary-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px}
-
-/* responsive */
-@media (max-width:1000px){
-  .dash-grid{grid-template-columns:repeat(2,1fr)}
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
-@media (max-width:600px){
-  .dash-grid{grid-template-columns:1fr}
-  .card-lg{width:94%}
-  .nav{display:none}
+.error { color: red; }
+
+/* Sistema */
+.hidden { display: none; }
+#app { display: flex; min-height: 100vh; }
+.sidebar {
+  background: #111;
+  color: white;
+  padding: 20px;
+  width: 220px;
+}
+.sidebar h2 { margin-top: 0; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.sidebar li:hover { background: #333; }
+.sidebar .logout {
+  margin-top: 20px;
+  background: red;
+  width: 100%;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+.content { flex: 1; padding: 20px; }
+.page { display: none; }
+.page.active { display: block; }
+
+/* Dashboard */
+.cards { display: flex; gap: 20px; flex-wrap: wrap; }
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 200px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
 }

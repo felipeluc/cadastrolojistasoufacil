@@ -1,91 +1,105 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #121212;
-  color: #fff;
+:root{
+  --bg:#0b0b0c;
+  --panel:#111214;
+  --muted:#9aa0a6;
+  --glass: rgba(255,255,255,0.03);
+  --accent:#f5f5f7;
+  --radius:14px;
+  --pad:18px;
+  --shadow: 0 8px 24px rgba(0,0,0,0.6);
+  font-synthesis: none;
 }
-
-h1, h2, h3, h4 {
-  margin: 10px 0;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:linear-gradient(180deg,#070708 0%, #0e0e10 100%);
+  color:var(--accent); font-family:Inter, "Segoe UI", Roboto, system-ui, -apple-system;
+  -webkit-font-smoothing:antialiased;
 }
+.hidden{display:none}
 
-.card {
-  background: #1e1e1e;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(255,255,255,0.1);
-  text-align: center;
+/* center login */
+.center-screen{min-height:100vh; display:flex; align-items:center; justify-content:center}
+.card-lg{width:420px; padding:28px; border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); box-shadow:var(--shadow); border:1px solid rgba(255,255,255,0.02)}
+.brand{display:flex; align-items:center; gap:12px; margin-bottom:8px}
+.brand h1{font-size:20px; margin:0}
+.brand h1 span{color:var(--muted); font-weight:400}
+
+.form{display:block}
+label{display:block; font-size:13px; color:var(--muted); margin-top:12px}
+input[type="text"], input[type="password"], input[type="number"], input[type="date"], select{
+  width:100%; padding:12px; border-radius:10px; margin-top:6px; background:var(--panel); color:var(--accent); border:1px solid rgba(255,255,255,0.02);
 }
+.row{display:flex; gap:10px; margin-top:16px}
+.btn{background:#1c1c1d; border:1px solid rgba(255,255,255,0.03); color:var(--accent); padding:10px 14px; border-radius:10px; cursor:pointer}
+.btn.primary{background:linear-gradient(180deg,#fff,#eaeaea); color:#000}
+.btn.ghost{background:transparent; border:1px solid rgba(255,255,255,0.04)}
+.btn.small{padding:7px 10px; font-size:13px}
+.hint{font-size:13px; color:var(--muted); margin-top:10px}
+.txt-error{color:#ff8a8a; margin-top:6px}
 
-#loginSection {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+/* App layout */
+.topbar{display:flex; align-items:center; justify-content:space-between; padding:14px 24px; border-bottom:1px solid rgba(255,255,255,0.02); background:rgba(0,0,0,0.2)}
+.logo{display:flex; gap:10px; align-items:center}
+.logo strong{font-size:16px}
+.nav{display:flex; gap:8px; margin-left:18px}
+.navbtn{background:transparent; color:var(--muted); border-radius:8px; padding:8px 12px; border:1px solid transparent; cursor:pointer}
+.navbtn.active{background:var(--panel); color:var(--accent); border:1px solid rgba(255,255,255,0.03)}
+.container{max-width:1100px; margin:20px auto; padding:0 18px}
+
+/* dashboard */
+.dash-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:18px}
+.dash-card{background:var(--panel); padding:16px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.6); display:flex; gap:12px; align-items:center}
+.dash-icon{font-size:28px; width:56px; height:56px; display:flex; align-items:center; justify-content:center; background:var(--glass); border-radius:12px}
+.dash-body .dash-title{font-size:13px; color:var(--muted)}
+.dash-value{font-weight:700; font-size:20px; margin-top:6px}
+
+/* cards list */
+.card-section{background:transparent; padding:14px 0}
+.section-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px}
+.cards-list{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+
+/* cartão individual */
+.card-card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:14px; padding:14px; border:1px solid rgba(255,255,255,0.02);
+  box-shadow:0 10px 30px rgba(0,0,0,0.6);
 }
+.card-head{display:flex; align-items:center; justify-content:space-between}
+.card-title{display:flex; gap:12px; align-items:center}
+.card-title strong{font-size:16px}
+.card-body{margin-top:12px}
+.kpis{display:flex; gap:10px; flex-wrap:wrap}
+.kpi{background:rgba(255,255,255,0.02); padding:10px; border-radius:10px; min-width:120px}
+.kpi .label{font-size:12px; color:var(--muted)}
+.kpi .val{font-weight:700; margin-top:6px}
 
-input, select, button {
-  display: block;
-  width: 100%;
-  margin: 8px 0;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
+/* subtabs inside card */
+.card-tabs{display:flex; gap:8px; margin-top:12px}
+.card-tab{background:transparent; padding:8px 10px; border-radius:8px; border:1px solid transparent; cursor:pointer; color:var(--muted)}
+.card-tab.active{background:var(--panel); color:var(--accent); border:1px solid rgba(255,255,255,0.02)}
+
+/* forms */
+.form-inline{display:flex; gap:8px; margin-top:10px}
+.form-inline input{flex:1}
+.small-table{width:100%; margin-top:10px; border-collapse:collapse}
+.small-table td, .small-table th{padding:8px; border-bottom:1px dashed rgba(255,255,255,0.02)}
+.muted{color:var(--muted); font-size:13px}
+.tiny{font-size:12px}
+
+/* wallet grid */
+.grid-3{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:12px}
+.wallet{background:var(--panel); padding:12px; border-radius:10px;}
+
+/* summary */
+.summary-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px}
+
+/* responsive */
+@media (max-width:1000px){
+  .dash-grid{grid-template-columns:repeat(2,1fr)}
 }
-
-input, select {
-  background: #2a2a2a;
-  color: #fff;
-}
-
-button {
-  background: #3a3a3a;
-  color: #fff;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #575757;
-}
-
-#dashboard {
-  padding: 20px;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-nav {
-  margin: 20px 0;
-}
-
-.tabBtn {
-  background: #2a2a2a;
-  margin: 5px;
-  padding: 10px 15px;
-  border-radius: 8px;
-}
-
-.tabBtn:hover {
-  background: #444;
-}
-
-.tab {
-  display: none;
-}
-
-.tab.active {
-  display: block;
-}
-
-#cartoesList div, #listaParcelas div, #listaCasa div {
-  background: #1e1e1e;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 8px;
+@media (max-width:600px){
+  .dash-grid{grid-template-columns:1fr}
+  .card-lg{width:94%}
+  .nav{display:none}
 }

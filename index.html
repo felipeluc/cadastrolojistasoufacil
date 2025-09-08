@@ -1,101 +1,165 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema Financeiro</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Meu Financeiro • Felipe</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Tela de Login -->
-  <section id="loginSection">
-    <form id="loginForm" class="card">
-      <h2>Login</h2>
-      <input type="text" id="username" placeholder="Usuário" required />
-      <input type="password" id="password" placeholder="Senha" required />
-      <button type="submit">Entrar</button>
-    </form>
-  </section>
+  <div id="root">
 
-  <!-- Dashboard -->
-  <section id="dashboard" style="display:none;">
-    <header>
-      <h1>Sistema Financeiro</h1>
-      <button id="logoutBtn">Sair</button>
-    </header>
-
-    <main>
-      <h2>Bem-vindo, Felipe!</h2>
-      <nav>
-        <button class="tabBtn" data-tab="cartoes">Cartões</button>
-        <button class="tabBtn" data-tab="parcelas">Parcelas</button>
-        <button class="tabBtn" data-tab="casa">Casa</button>
-        <button class="tabBtn" data-tab="geral">Visão Geral</button>
-      </nav>
-
-      <div id="content">
-        <!-- CARTÕES -->
-        <div class="tab active" id="cartoes">
-          <h3>Meus Cartões</h3>
-          <div id="cartoesList"></div>
-          <h4>Adicionar gasto de outra pessoa</h4>
-          <form id="outrosForm">
-            <select id="cartaoSelect"></select>
-            <input type="text" id="nomeOutro" placeholder="Nome" required />
-            <input type="number" id="valorOutro" placeholder="Valor" required />
-            <button type="submit">Adicionar</button>
-          </form>
+    <!-- LOGIN -->
+    <div id="login-screen" class="center-screen card-lg">
+      <div class="brand">
+        <div class="logo-ico" aria-hidden>
+          <!-- minimal logo -->
+          <svg width="40" height="40" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" fill="white" opacity="0.08"/></svg>
         </div>
-
-        <!-- PARCELAS -->
-        <div class="tab" id="parcelas">
-          <h3>Controle de Parcelas</h3>
-          <form id="parcelaForm">
-            <input type="text" id="parcelaNome" placeholder="Descrição" required />
-            <input type="number" id="parcelaValor" placeholder="Valor da parcela" required />
-            <input type="number" id="qtdParcelas" placeholder="Qtd. Parcelas" required />
-            <select id="bancoParcela">
-              <option value="Nubank">Nubank</option>
-              <option value="BB">Banco do Brasil</option>
-              <option value="Will Bank">Will Bank</option>
-              <option value="Mercado Pago">Mercado Pago</option>
-              <option value="Bradesco">Bradesco</option>
-            </select>
-            <button type="submit">Cadastrar</button>
-          </form>
-          <div id="listaParcelas"></div>
-        </div>
-
-        <!-- CASA -->
-        <div class="tab" id="casa">
-          <h3>Gastos da Casa</h3>
-          <form id="casaForm">
-            <select id="tipoGastoCasa">
-              <option value="Aluguel">Aluguel</option>
-              <option value="Mercado">Mercado</option>
-              <option value="Luz">Luz</option>
-              <option value="Água">Água</option>
-              <option value="Ração">Ração</option>
-              <option value="Internet">Internet</option>
-              <option value="Reserva">Reserva</option>
-              <option value="Pensão">Pensão</option>
-            </select>
-            <input type="number" id="valorCasa" placeholder="Valor" required />
-            <input type="date" id="dataCasa" required />
-            <button type="submit">Adicionar</button>
-          </form>
-          <div id="listaCasa"></div>
-        </div>
-
-        <!-- VISÃO GERAL -->
-        <div class="tab" id="geral">
-          <h3>Resumo Geral</h3>
-          <div id="resumo"></div>
-        </div>
+        <h1>Meu <span>Financeiro</span></h1>
       </div>
-    </main>
-  </section>
 
-  <script type="module" src="app.js"></script>
+      <form id="login-form" class="form">
+        <label>Usuário</label>
+        <input id="login-username" autocomplete="username" value="" placeholder="Usuário" />
+        <label>Senha</label>
+        <input id="login-password" type="password" autocomplete="current-password" placeholder="Senha" />
+        <div class="row">
+          <button id="btn-login" class="btn primary">Entrar</button>
+          <button id="btn-demo" type="button" class="btn ghost">Exemplo</button>
+        </div>
+        <p class="hint">Usuário: <strong>Felipe</strong> — Senha: <strong>1515*</strong></p>
+        <p id="login-error" class="txt-error"></p>
+      </form>
+    </div>
+
+    <!-- APP -->
+    <div id="app" class="hidden">
+
+      <!-- topbar -->
+      <header class="topbar">
+        <div class="left">
+          <div class="logo">
+            <svg width="28" height="28" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity="0.06"/></svg>
+            <strong>MeuFinanceiro</strong>
+          </div>
+          <nav class="nav">
+            <button class="navbtn active" data-tab="dashboard">Dashboard</button>
+            <button class="navbtn" data-tab="cards">Cartões</button>
+            <button class="navbtn" data-tab="money">Admin Dinheiro</button>
+            <button class="navbtn" data-tab="settings">Config</button>
+          </nav>
+        </div>
+
+        <div class="right">
+          <div class="user">Felipe</div>
+          <button id="btn-logout" class="btn small ghost">Sair</button>
+        </div>
+      </header>
+
+      <main class="container">
+
+        <!-- DASHBOARD -->
+        <section id="tab-dashboard" class="tabview active">
+          <div class="dash-grid">
+            <div class="dash-card">
+              <div class="dash-icon">💳</div>
+              <div class="dash-body">
+                <div class="dash-title">Total (cartões)</div>
+                <div id="dash-total-cards" class="dash-value">R$ 0,00</div>
+                <div class="muted">Soma (limite utilizado)</div>
+              </div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-icon">👤</div>
+              <div class="dash-body">
+                <div class="dash-title">Meu gasto total</div>
+                <div id="dash-meu-gasto" class="dash-value">R$ 0,00</div>
+                <div class="muted">Somatório dos seus gastos</div>
+              </div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-icon">⚖️</div>
+              <div class="dash-body">
+                <div class="dash-title">Disponível (BB)</div>
+                <div id="dash-disponivel-bb" class="dash-value">R$ 0,00</div>
+                <div class="muted">Limite BB menos seus compromissos</div>
+              </div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-icon">🏦</div>
+              <div class="dash-body">
+                <div class="dash-title">Total guardado</div>
+                <div id="dash-guardado" class="dash-value">R$ 0,00</div>
+                <div class="muted">Caixinhas e carteiras</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-section">
+            <div class="section-head">
+              <h3>Resumo rápido</h3>
+              <div class="tiny muted">Última atualização: <span id="last-update">—</span></div>
+            </div>
+            <div id="quick-summary" class="summary-grid"></div>
+          </div>
+        </section>
+
+        <!-- CARTÕES -->
+        <section id="tab-cards" class="tabview">
+          <div class="card-section">
+            <div class="section-head">
+              <h3>Seus cartões</h3>
+              <div>
+                <button id="btn-new-card" class="btn small">+ Novo cartão</button>
+              </div>
+            </div>
+
+            <div id="cards-list" class="cards-list"></div>
+          </div>
+        </section>
+
+        <!-- ADMIN DINHEIRO -->
+        <section id="tab-money" class="tabview">
+          <div class="card card-section">
+            <h3>Administração de dinheiro</h3>
+            <div class="grid-3" id="wallets-list"></div>
+
+            <div class="form-inline">
+              <input id="wallet-name" placeholder="Nome (ex: Carteira Nubank)" />
+              <input id="wallet-value" type="number" step="0.01" placeholder="Valor R$" />
+              <button id="wallet-add" class="btn">Salvar</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONFIG -->
+        <section id="tab-settings" class="tabview">
+          <div class="card card-section">
+            <h3>Configurações</h3>
+            <div class="grid-2">
+              <div>
+                <label>Salário padrão</label>
+                <input id="cfg-salario" type="number" step="0.01" />
+                <button id="cfg-save" class="btn">Salvar salário</button>
+              </div>
+
+              <div id="user-admin" class="muted">
+                <label>Usuário fixo</label>
+                <div class="tiny">Felipe — login fixo</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
